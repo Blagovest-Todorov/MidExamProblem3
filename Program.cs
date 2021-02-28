@@ -55,7 +55,7 @@ namespace Task3
             }
             else // (typeItem == "expensive")
             {
-                for (long i = 0; i < entryPointIdx; i++)  //Left
+                for (long i = 0; i < entryPointIdx; i++)  //Left from entryPoint
                 {
                     if (nums[i] >= nums[entryPointIdx])
                     {
@@ -64,10 +64,9 @@ namespace Task3
                 }
 
                 leftSu = leftSum.Sum();
-
                 /// Right
-                /// 
-                for (long i = entryPointIdx + 1; i < nums.Length ; i++)  //Left
+                
+                for (long i = entryPointIdx + 1; i < nums.Length ; i++)  //Right from entryPoint
                 {
                     if (nums[i] >= nums[entryPointIdx])
                     {
@@ -77,7 +76,7 @@ namespace Task3
 
                 rightSu = rightSum.Sum();
             }
-            // now the Check Right Left  and Print the Result 
+            // now to Check Compare the Right and  Left Sum  and Print the Result 
             if (rightSu > leftSu)  // We make the check at end
             {
 
