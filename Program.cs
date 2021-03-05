@@ -1,95 +1,112 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-
-namespace Task3
+class WordCountingWithSortedDictionary
 {
-    class Program
+    static void Main()
     {
-        static void Main(string[] args)
+        List<int> ratings = Console.ReadLine()
+             .Split()
+             .Select(int.Parse)
+             .ToList(); // read the input and make it to List
+
+        int entryPointIdx = int.Parse(Console.ReadLine());
+
+        string[] comandData = Console.ReadLine()
+            .Split();
+
+        string comand = comandData[0];
+
+        int sumLeft = 0;
+        int sumRight = 0;
+
+        if (comand == "cheap")
         {
-            long[] nums = Console.ReadLine()   // Line 1
-                .Split(' ')
-                .Select(long.Parse)
-                .ToArray(); // Array ratings
-
-            List<long> leftSum = new List<long>(nums.Length);
-            List<long> rightSum = new List<long>(nums.Length);
-
-            long leftSu = 0;
-            long rightSu = 0;
-
-            long entryPointIdx = long.Parse(Console.ReadLine()); //Line 2
-            // int EntryPoint  >= 0 and < PenaltyelementIdx 
-            long intBreakLength = entryPointIdx;
-
-            string typeItem = Console.ReadLine(); //Line 3
-
-            if (typeItem == "cheap")   // typeItem -- > Position 
-            {
-                // Left 
-                for (long i = 0; i < entryPointIdx; i++)
-                {
-                    long curItem = nums[i];
-
-                    if (nums[i] < nums[entryPointIdx])   // nums[entryPointIdx]
-                    {
-                        leftSum.Add(nums[i]);   //adding to Array
-                    }
-                }
-
-                // Console.WriteLine(leftSum.Sum());
-                leftSu = leftSum.Sum();
-                ///// Right
-                for (long i = nums.Length - 1; i > entryPointIdx; i--)
-                {
-                    long curItem = nums[i];
-
-                    if (nums[i] < nums[entryPointIdx])
-                    {
-                        rightSum.Add(nums[i]);
-                    }
-                }
-
-                rightSu = rightSum.Sum();                
-            }
-            else // (typeItem == "expensive")
-            {
-                for (long i = 0; i < entryPointIdx; i++)  //Left from entryPoint
-                {
-                    if (nums[i] >= nums[entryPointIdx])
-                    {
-                        leftSum.Add(nums[i]);
-                    }
-                }
-
-                leftSu = leftSum.Sum();
-                /// Right
-                
-                for (long i = entryPointIdx + 1; i < nums.Length ; i++)  //Right from entryPoint
-                {
-                    if (nums[i] >= nums[entryPointIdx])
-                    {
-                        rightSum.Add(nums[i]);
-                    }
-                }
-
-                rightSu = rightSum.Sum();
-            }
-            // now to Check Compare the Right and  Left Sum  and Print the Result 
-            if (rightSu > leftSu)  // We make the check at end
-            {
-
-                Console.WriteLine($"Right - {rightSu}");
-            }
-            else if (rightSu < leftSu)
-            {
-                Console.WriteLine($"Left - {leftSu}");
-            }
-            else // Left == Right
-            {
-                Console.WriteLine($"Left - {leftSu}");
-            }
+            //// Left Side 
+            sumLeft = SumElementsLeft(comand, entryPointIdx, ratings);
+            ////Right Side // 
+            sumRight = SumElementsRight(comand, entryPointIdx, ratings);
         }
+        else if (comand == "expensive")
+        {
+            //// Left Side 
+            sumLeft = SumElementsLeft(comand, entryPointIdx, ratings);
+            ////Right Side // 
+            sumRight = SumElementsRight(comand, entryPointIdx, ratings);
+        }
+
+        if (sumLeft > sumRight)
+        {
+            Console.WriteLine($"Left - {sumLeft}");
+        }
+        else if (sumRight > sumLeft)
+        {
+            Console.WriteLine($"Right - {sumRight}");
+        }
+        else //if (sumRight = sumLeft)
+        {
+            Console.WriteLine($"Left - {sumLeft}");
+        }
+    }
+
+    static int SumElementsLeft(string command, int entryPointIdx, List<int> ratings )
+    {
+        int sumL = 0;
+       
+        if (command == "cheap")
+        {
+            for (int i = 0; i < entryPointIdx; i++)
+            {
+                if (ratings[i] < ratings[entryPointIdx])
+                {
+                    sumL += ratings[i];
+                }
+            }
+
+            return sumL;
+            
+        }
+        else // if command = "expensive"  //Left Sum 
+        {
+            for (int i = 0; i < entryPointIdx; i++)
+            {
+                if (ratings[i] >= ratings[entryPointIdx])
+                {
+                    sumL += ratings[i];
+                }
+            }
+
+            return sumL;
+        }
+    }
+
+    static int SumElementsRight(string command, int entryPointIdx, List<int> ratings)
+    {
+        int sumR = 0;
+
+        if (command == "cheap")
+        {
+            for (int i = entryPointIdx + 1; i < ratings.Count; i++)
+            {
+                if (ratings[i] < ratings[entryPointIdx])
+                {
+                    sumR += ratings[i];
+                }
+            }
+
+            return sumR;
+        }
+        else  //"if command == "expensive"
+        {
+            for (int i = entryPointIdx + 1; i < ratings.Count; i++)
+            {
+                if (ratings[i] >= ratings[entryPointIdx])
+                {
+                    sumR += ratings[i];
+                }
+            }
+
+            return sumR;
+        }  
     }
 }
