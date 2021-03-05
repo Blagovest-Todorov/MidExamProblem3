@@ -35,17 +35,13 @@ class WordCountingWithSortedDictionary
             sumRight = SumElementsRight(comand, entryPointIdx, ratings);
         }
 
-        if (sumLeft > sumRight)
+        if (sumLeft >= sumRight)
         {
             Console.WriteLine($"Left - {sumLeft}");
         }
-        else if (sumRight > sumLeft)
+        else // if (sumRight > sumLeft)
         {
             Console.WriteLine($"Right - {sumRight}");
-        }
-        else //if (sumRight = sumLeft)
-        {
-            Console.WriteLine($"Left - {sumLeft}");
         }
     }
 
@@ -63,8 +59,7 @@ class WordCountingWithSortedDictionary
                 }
             }
 
-            return sumL;
-            
+            return sumL;            
         }
         else // if command = "expensive"  //Left Sum 
         {
